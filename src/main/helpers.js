@@ -294,9 +294,11 @@ export function pipesetup(...streams) {
 
 // return a Readable stream that emits data
 export function readableStream(data) {
+  console.log('readableSteam(data)', data)
   var s = new stream.Readable()
   s._read = () => {}
   s.push(data)
+  console.log('after readable stream push data');
   s.push(null)
   return s
 }

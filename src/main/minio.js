@@ -1691,6 +1691,7 @@ export class Client {
   // *         List of Object name and versionId as an object:  [{name:"objectname",versionId:"my-version-id"}]
 
   removeObjects(bucketName, objectsList, cb) {
+    console.log('minio removeObjects()');
     if (!isValidBucketName(bucketName)) {
       throw new errors.InvalidBucketNameError('Invalid bucket name: ' + bucketName)
     }
@@ -1730,13 +1731,13 @@ export class Client {
         }
       })
       let deleteObjects = {"Delete": {"Quiet": true, "Object": objects}}
+      console.log('deleteObjects', deleteObjects);
       const builder = new xml2js.Builder({ headless: true })
       let payload = builder.buildObject(deleteObjects)
       payload = encoder.encode(payload)
       const headers = {}
 
       headers['Content-MD5'] = toMd5(payload)
-
       this.makeRequest({ method, bucketName, query, headers}, payload, [200], '', false, (e) => {
         if (e) return callback(e)
         callback(null)
